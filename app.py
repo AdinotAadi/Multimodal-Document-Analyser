@@ -1,6 +1,7 @@
 import streamlit as st
 from module import process_text
 from extractor.pdf2txt import extract_text_from_pdf
+from extractor.img2txt import extract_text_from_image
 
 def format_score(score):
     score = max(0.0, min(1.0, score))
@@ -10,7 +11,7 @@ def main():
     st.title("MultiModal Document Analyzer")
 
     # File upload functionality
-    uploaded_files = st.file_uploader("Upload one or more files", type=["pdf", "txt"], accept_multiple_files=True)
+    uploaded_files = st.file_uploader("Upload one or more files", type=["pdf", "txt", "jpg", "png"], accept_multiple_files=True)
 
     if uploaded_files:
         # Analyze button outside the loop
@@ -25,8 +26,10 @@ def main():
                     text_input = extract_text_from_pdf(uploaded_file)
                 elif uploaded_file.type == "text/plain":
                     text_input = file_contents.decode("utf-8")
+                elif uploaded_file.type.startswith('image'):
+                    text_input = extract_text_from_image(uploaded_file)
                 else:
-                    st.error("Unsupported file type. Please upload a PDF or TXT file.")
+                    st.error("Unsupported file type. Please upload a PDF, TXT, JPEG, or PNG file.")
                     continue
 
                 # Perform analysis
