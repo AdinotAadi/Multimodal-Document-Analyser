@@ -8,7 +8,7 @@ def format_score(score):
     return round(score * 100, 2)
 
 def main():
-    st.title("MultiModal Document Analyzer")
+    st.title("Multi-format File Analyzer")
 
     # File upload functionality
     uploaded_files = st.file_uploader("Upload one or more files", type=["pdf", "txt", "jpg", "png"], accept_multiple_files=True)
